@@ -1,9 +1,9 @@
 {
 	"name": "eleventysite",
 	"version": "1.0.0",
-	"main": "index.js",
+	"type": "module",
 	"scripts": {
-		"build-ghpages": "npx @11ty/eleventy --pathprefix=/paulyu1988.github.io/"
+		"build-ghpages": "npx @PaulYu1988 --pathprefix=/paulyu1988.github.io/"
 	},
 	"devDependencies": {
 		"@11ty/eleventy": "^3.1.2",
