@@ -6,24 +6,29 @@ const eleventyNavigation = {
 
 const numberOfLatestPostsToShow = 3;
 ---
-{% set postsCount = collections.posts | length %}
-{% set latestPostsCount = postsCount | min(numberOfLatestPostsToShow) %}
-<h2>Recent</h2>
+<div class="row">
+	<div class="col-lg-9">
+		{% set postsCount = collections.posts | length %}
+		{% set latestPostsCount = postsCount | min(numberOfLatestPostsToShow) %}
+		<h2 class="fs-5">Recent</h2>
 
-{% set postslist = collections.posts | head(-1 * numberOfLatestPostsToShow) %}
-{% set postslistCounter = postsCount %}
-{% include "postslist.njk" %}
+		{% set postslist = collections.posts | head(-1 * numberOfLatestPostsToShow) %}
+		{% set postslistCounter = postsCount %}
+		{% include "postslist.njk" %}
 
-{% set morePosts = postsCount - numberOfLatestPostsToShow %}
-{% if morePosts > 0 %}
-<p>{{ morePosts }} more post{% if morePosts != 1 %}s{% endif %} can be found in <a href="blog.njk">the archive</a>.</p>
-{% endif %}
+		{% set morePosts = postsCount - numberOfLatestPostsToShow %}
+		{% if morePosts > 0 %}
+		<p>{{ morePosts }} more post{% if morePosts != 1 %}s{% endif %} can be found in <a href="blog.njk">the archive</a>.</p>
+		{% endif %}
 
-{# List every content page in the project #}
-{#
-<ul>
-	{%- for entry in collections.all %}
-	<li><a href="{{ entry.url }}"><code>{{ entry.url }}</code></a></li>
-	{%- endfor %}
-</ul>
-#}
+		{# List every content page in the project #}
+		{#
+		<ul>
+			{%- for entry in collections.all %}
+			<li><a href="{{ entry.url }}"><code>{{ entry.url }}</code></a></li>
+			{%- endfor %}
+		</ul>
+		#}
+	</div>
+	<div class="col-lg-3">.col-3<br>Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one contiguous unit.</div>
+</div>
