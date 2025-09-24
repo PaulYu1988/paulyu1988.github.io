@@ -3,8 +3,64 @@ const eleventyNavigation = {
 	key: "Archive",
 	order: 2
 };
+const pagination = {
+	data: 'collections.posts',
+	size: 10,
+	alias: 'postsOnPage'
+}
+const eleventyComputed = {
+	permalink : function (data) {
+      return data.pagination.pageNumber === 0
+        ? "/blog/"
+        : `/blog/page/${data.pagination.pageNumber + 1}/`;
+    }
+}
 ---
 <h1>Archive</h1>
 
-{% set postslist = collections.posts %}
+{% set postslist = postsOnPage %}
 {% include "postslist.njk" %}
+
+
+{% if pagination.pages | length > 1 %}
+	<nav aria-label="Page navigation example">
+		<ul class="pagination pagination-sm">
+		{% if pagination.pageNumber > 0 %}
+			<li class="page-item">
+				<a class="page-link" href="{{ pagination.hrefs[pagination.pageNumber - 1] }}" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+		{% else %}
+			<li class="page-item disabled">
+				<a class="page-link" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+		{% endif %}
+		{% for page in pagination.pages %}
+			{% set idx = loop.index0 %}
+			{% if idx == pagination.pageNumber %}
+				<li class="page-item active">
+					<a class="page-link" href="#" aria-current="page">{{ idx + 1 }}</a>
+				</li>
+			{% else %}
+				<li class="page-item"><a class="page-link" href="{{ pagination.hrefs[idx] }}">{{ idx + 1 }}</a></li>
+			{% endif %}
+		{% endfor %}
+		{% if pagination.pageNumber + 1 < pagination.pages | length %}
+			<li class="page-item">
+				<a class="page-link" href="{{ pagination.hrefs[pagination.pageNumber + 1] }}" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+			</li>
+		{% else %}
+			<li class="page-item disabled">
+				<a class="page-link" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+			</li>
+		{% endif %}
+		</ul>
+	</nav>
+{% endif%}
