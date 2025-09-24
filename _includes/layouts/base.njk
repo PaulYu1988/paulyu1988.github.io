@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ metadata.language }}">
+<html class="h-100" lang="{{ metadata.language }}">
 	<head>
 		<script>
 			setTheme();
@@ -105,7 +105,7 @@
 		{#- Add the heading-anchors web component to the JavaScript bundle #}
 		<script type="module">{% include "node_modules/@zachleat/heading-anchors/heading-anchors.js" %}</script>
 	</head>
-	<body>
+	<body class="h-100 d-flex flex-column">
 		<header>
 			<nav class="navbar border-bottom border-body navbar-expand-lg">
 				<div class="container">
@@ -138,19 +138,18 @@
 				</div>
 			</nav>
 		</header>
-		<div class="container">
+		<div class="container flex-grow-1">
 			<main id="main" class="mt-4">
 				{{ content | safe }}
 			</main>
 		</div>
 		<footer>
 			<div class="container">
-				<p>
+				<p class="text-center">
 					<em>Built with <a href="https://www.11ty.dev/">{{ eleventy.generator }}</a></em>
 				</p>
 			</div>
 		</footer>
-
 		<!-- This page `{{ page.url }}` was built on {% currentBuildDate %} -->
 		<script type="module" src="/assets/bootstrap-5.3.8/js/bootstrap.bundle.min.js"></script>
 		<script type="module" src="{% getBundleFileUrl "js" %}"></script>

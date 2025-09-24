@@ -10,7 +10,7 @@ const numberOfLatestPostsToShow = 3;
 	<div class="col-lg-9">
 		{% set postsCount = collections.posts | length %}
 		{% set latestPostsCount = postsCount | min(numberOfLatestPostsToShow) %}
-		<h2 class="fs-5">Recent</h2>
+		<h2 class="fs-6"><i class="bi bi-newspaper"></i> Recent</h2>
 
 		{% set postslist = collections.posts | head(-1 * numberOfLatestPostsToShow) %}
 		{% set postslistCounter = postsCount %}
@@ -32,13 +32,13 @@ const numberOfLatestPostsToShow = 3;
 	</div>
 	<div class="col-lg-3">
 		<div class="mb-4">
-			<h3 class="fs-5 mb-3">About me</h3>
+			<h3 class="fs-6 pb-2 mb-2 border-bottom"><i class="bi bi-file-person"></i> About me</h3>
 			<div>
 				A .NET developer
 			</div>
 		</div>
 		<div class="mb-4">
-			<h3 class="fs-5 mb-4">Tags</h3>
+			<h3 class="fs-6 pb-2 mb-3 border-bottom"><i class="bi bi-tags"></i> Tags</h3>
 			<div>
 				{% set tagslist = collections | getKeys | filterTagList | sortAlphabetically | head(16) %}
 				{% for tag in tagslist %}
