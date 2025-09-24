@@ -30,5 +30,22 @@ const numberOfLatestPostsToShow = 3;
 		</ul>
 		#}
 	</div>
-	<div class="col-lg-3">.col-3<br>Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one contiguous unit.</div>
+	<div class="col-lg-3">
+		<div class="mb-4">
+			<h3 class="fs-5 mb-3">About me</h3>
+			<div>
+				A .NET developer
+			</div>
+		</div>
+		<div class="mb-4">
+			<h3 class="fs-5 mb-4">Tags</h3>
+			<div>
+				{% set tagslist = collections | getKeys | filterTagList | sortAlphabetically | head(16) %}
+				{% for tag in tagslist %}
+					{% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
+					<a href="{{ tagUrl }}" class="btn btn-light btn-sm border fs-7 mb-2">{{ tag }}</a>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 </div>
