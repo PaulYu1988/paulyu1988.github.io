@@ -1,3 +1,65 @@
+setTheme();
+			function setTheme(themeValue) {
+				if (!themeValue) {
+					themeValue = localStorage.getItem('theme');
+				}
+				if (!themeValue) {
+					themeValue = 'light';
+				}
+				if (themeValue === 'light') {
+					document.documentElement.setAttribute('data-bs-theme', 'light');
+				} else if (themeValue === 'dark') {
+					document.documentElement.setAttribute('data-bs-theme', 'dark');
+				} else if (themeValue === 'auto') {
+					var hour = new Date().getHours();
+					if (hour >= 6 && hour < 18) {
+						document.documentElement.setAttribute('data-bs-theme', 'light');
+					} else {
+						document.documentElement.setAttribute('data-bs-theme', 'dark');
+					}
+				}
+			}
+			function setThemeIcon(themeValue) {
+				if (!themeValue) {
+					themeValue = localStorage.getItem('theme');
+				}
+				if (!themeValue) {
+					themeValue = 'light';
+				}
+				if (themeValue === 'light') {
+					document.getElementById('theme-icon').setAttribute('class', 'bi bi-brightness-high-fill');
+				} else if (themeValue === 'dark') {
+					document.getElementById('theme-icon').setAttribute('class', 'bi bi-moon-stars-fill');
+				} else if (themeValue === 'auto') {
+					document.getElementById('theme-icon').setAttribute('class', 'bi bi-circle-half');
+				}
+				var themeItems = document.querySelectorAll('.theme-item');
+				if (themeItems.length > 0) {
+					themeItems.forEach(elem => {
+						if (elem.getAttribute("data-theme") === themeValue) {
+							elem.classList.add('active');
+						} else {
+							elem.classList.remove('active');
+						}
+					});
+				}
+			}
+			document.addEventListener("DOMContentLoaded", () => {
+				setThemeIcon();
+				const items = document.querySelectorAll('.theme-item');
+				items.forEach(function(elem) {
+					elem.addEventListener('click', function(event) {
+						var clicked = event.currentTarget;
+						var themeValue = clicked.getAttribute('data-theme');
+						
+						if (themeValue) {
+							localStorage.setItem('theme', themeValue);
+							setThemeIcon(themeValue);
+							setTheme(themeValue);
+						}
+					});
+				});
+			});
 // Thank you to https://github.com/daviddarnes/heading-anchors
 // Thank you to https://amberwilson.co.uk/blog/are-your-anchor-links-accessible/
 
