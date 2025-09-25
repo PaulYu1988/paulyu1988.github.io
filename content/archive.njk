@@ -5,14 +5,14 @@ const eleventyNavigation = {
 };
 const pagination = {
 	data: 'collections.posts',
-	size: 10,
+	size: 2,
 	alias: 'postsOnPage'
 }
 const eleventyComputed = {
 	permalink : function (data) {
       return data.pagination.pageNumber === 0
-        ? "/blog/"
-        : `/blog/page/${data.pagination.pageNumber + 1}/`;
+        ? "/archive/"
+        : `/archive/page/${data.pagination.pageNumber + 1}/`;
     }
 }
 ---
@@ -24,7 +24,7 @@ const eleventyComputed = {
 
 {% if pagination.pages | length > 1 %}
 	<nav aria-label="Page navigation example">
-		<ul class="pagination pagination-sm">
+		<ul class="pagination">
 		{% if pagination.pageNumber > 0 %}
 			<li class="page-item">
 				<a class="page-link" href="{{ pagination.hrefs[pagination.pageNumber - 1] }}" aria-label="Previous">
