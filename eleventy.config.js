@@ -8,6 +8,85 @@ import pluginFilters from "./_config/filters.js";
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function(eleventyConfig) {
+	eleventyConfig.addCollection("postsByYearMonth", collection => {
+		const all = collection.getAllSorted().filter(item => item.data.tags && item.data.tags.includes("posts"));
+		const groups = all.reduce((acc, post) => {
+			const date = post.date;
+			const year = date.getFullYear();
+			const month = String(date.getMonth() + 1).padStart(2, "0");
+			const key = `${year}-${month}`;
+			if (!acc[key]) {
+				acc[key] = [];
+			}
+			acc[key].push(post);
+			return acc;
+		}, {});
+		const pairs = Object.keys(groups)
+		.sort((a, b) => {
+			return b.localeCompare(a);
+		})
+		.map(key => {
+			return {
+			yearMonth: key,
+			posts: groups[key].sort((a, b) => b.date - a.date)
+			};
+		});
+
+		return pairs;
+	});
+
+	eleventyConfig.addCollection("postsByYearMonthPages", collection => {
+		const all = collection.getAllSorted().filter(item => item.data.tags && item.data.tags.includes("posts"));
+		const groups = all.reduce((acc, post) => {
+			const date = post.date;
+			const year = date.getFullYear();
+			const month = String(date.getMonth() + 1).padStart(2, "0");
+			const key = `${year}-${month}`;
+			if (!acc[key]) {
+				acc[key] = [];
+			}
+			acc[key].push(post);
+			return acc;
+		}, {});
+		const size = 2;
+		const result = [];
+		const pairs = Object.keys(groups).sort((a, b) => {
+			return b.localeCompare(a);
+		});
+		pairs.forEach(key => {
+			var posts = groups[key].sort((a, b) => b.date - a.date);
+			if (posts.length > size) {
+				const pageCount = posts.length % size ==0 ? posts.length/size : Math.floor(posts.length/size) + 1;
+				for(var i = 0; i < pageCount; i++) {
+					var pagePosts = posts.slice(i*size, (i+1)*size);
+					result.push({
+						yearMonth: key,
+						posts: pagePosts,
+						pageNumber: i + 1,
+						pageCount: pageCount,
+						code: key.replace(/-/g, "")
+					});
+				}
+			} else {
+				result.push({
+					yearMonth: key,
+					posts: posts,
+					pageNumber: 1,
+					pageCount: 1,
+					code: key.replace(/-/g, "")
+				});
+			}
+		});
+		return result;
+	});
+
+	// 你还可以加一些日期格式化的过滤器，比如把 “2025-08” 转成 “2025 年 08 月” 或 “Aug 2025” 等
+	eleventyConfig.addFilter("yearFromYearMonth", key => {
+		return key.split("-")[0];
+	});
+	eleventyConfig.addFilter("monthFromYearMonth", key => {
+		return key.split("-")[1];
+	});
 	// Drafts, see also _data/eleventyDataSchema.js
 	eleventyConfig.addPreprocessor("drafts", "*", (data, content) => {
 		if (data.draft) {

@@ -64,5 +64,17 @@ const eleventyComputed = {
 	{% endif%}
 	</div>
 	<div class="col-lg-3">
+		<ul class="archive-year-month-list">
+		{% for item in collections.postsByYearMonth %}
+			{% set ym = item.yearMonth %}
+			{% set year = ym | yearFromYearMonth %}
+			{% set month = ym | monthFromYearMonth %}
+			<li>
+			<a href="/archive/{{ year }}{{ month }}/">
+				{{ year }} 年 {{ month }} 月
+			</a>
+			</li>
+		{% endfor %}
+		</ul>
 	</div>
 </div>
