@@ -3,29 +3,36 @@
 	
 		
 		<url>
-			<loc>https://example.com/blog/firstpost/</loc>
-			<lastmod>2018-05-01</lastmod>
-		</url>
-	
-	
-		
-		<url>
-			<loc>https://example.com/blog/secondpost/</loc>
-			<lastmod>2018-07-04</lastmod>
-		</url>
-	
-	
-		
-		<url>
-			<loc>https://example.com/blog/thirdpost/</loc>
+			<loc>https://example.com/blog/5/</loc>
 			<lastmod>2018-08-24</lastmod>
 		</url>
 	
 	
 		
 		<url>
-			<loc>https://example.com/blog/fourthpost/</loc>
+			<loc>https://example.com/blog/6/</loc>
 			<lastmod>2018-09-30</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://example.com/blog/8/</loc>
+			<lastmod>2025-06-24</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://example.com/blog/3/</loc>
+			<lastmod>2025-09-01</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://example.com/blog/4/</loc>
+			<lastmod>2025-09-04</lastmod>
 		</url>
 	
 	
@@ -39,6 +46,13 @@
 		
 		<url>
 			<loc>https://example.com/about/</loc>
+			<lastmod>2025-09-25</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://example.com/archive/202509/</loc>
 			<lastmod>2025-09-25</lastmod>
 		</url>
 	
