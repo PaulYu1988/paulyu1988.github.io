@@ -27,8 +27,9 @@ export default async function(eleventyConfig) {
 		})
 		.map(key => {
 			return {
-			yearMonth: key,
-			posts: groups[key].sort((a, b) => b.date - a.date)
+				yearMonth: key,
+				posts: groups[key].sort((a, b) => b.date - a.date),
+				date: new Date(key + "-01")
 			};
 		});
 
@@ -64,7 +65,8 @@ export default async function(eleventyConfig) {
 						posts: pagePosts,
 						pageNumber: i + 1,
 						pageCount: pageCount,
-						code: key.replace(/-/g, "")
+						code: key.replace(/-/g, ""),
+						date: new Date(key + "-01")
 					});
 				}
 			} else {
@@ -73,7 +75,8 @@ export default async function(eleventyConfig) {
 					posts: posts,
 					pageNumber: 1,
 					pageCount: 1,
-					code: key.replace(/-/g, "")
+					code: key.replace(/-/g, ""),
+					date: new Date(key + "-01")
 				});
 			}
 		});
