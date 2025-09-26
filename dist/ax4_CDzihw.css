@@ -167,3 +167,12 @@ pre[class*="language-diff-"] {
 	text-decoration: none; /* override del, ins, mark defaults */
 	color: inherit; /* override del, ins, mark defaults */
 }
+.post-content h2{
+    font-size: 1.25rem;
+}
+.post-content h3, h4, h5, h6{
+    font-size: 1rem;
+}
+.post-content p {
+    color: var(--bs-body-color);
+}

@@ -5,30 +5,230 @@
   <subtitle>This is a longer description about your blog.</subtitle>
   <link href="https://example.com/feed/feed.xml" rel="self" />
   <link href="https://example.com/" />
-  <updated>2025-09-24T00:00:00Z</updated>
+  <updated>2025-09-26T00:00:00Z</updated>
   <id>https://example.com/</id>
   <author>
     <name>Your Name</name>
   </author>
   <entry>
-    <title>This is my first post.</title>
+    <title>How to Build a High-Performance Blog with Eleventy</title>
+    <link href="https://example.com/blog/2/" />
+    <updated>2025-09-26T00:00:00Z</updated>
+    <id>https://example.com/blog/2/</id>
+    <content type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;If you’re looking to build a blog that’s fast, lightweight, and easy to maintain, Eleventy (also known as 11ty) is an excellent choice. It lets you write content in Markdown, combine that with flexible templates, and generate a static site you can deploy anywhere. In this article, I’ll walk you through the essential steps, best practices, and tips to build your Eleventy blog in a way that’s optimized for performance and SEO.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;What Is Eleventy and Why Use It?&lt;/h2&gt;
+&lt;p&gt;Eleventy is a static site generator built in JavaScript. It transforms content and templates into static HTML files at build time, rather than generating pages dynamically on each request. This leads to faster page loads, simpler hosting, and lower maintenance.&lt;/p&gt;
+&lt;p&gt;Key advantages of Eleventy include:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Support for many template languages (Markdown, Nunjucks, Liquid, etc.)&lt;/li&gt;
+&lt;li&gt;Minimal required configuration — it works out of the box&lt;/li&gt;
+&lt;li&gt;Flexibility to structure your project as you like&lt;/li&gt;
+&lt;li&gt;Good support for SEO (metadata, sitemap, clean URLs)&lt;/li&gt;
+&lt;li&gt;Easy deployment on static hosts or CDNs&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Because pages are pre-rendered, there’s no backend database or server logic involved, which reduces complexity and improves security.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Project Structure &amp;amp; Setup&lt;/h2&gt;
+&lt;p&gt;Here’s a typical folder layout for an Eleventy blog:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;my-blog/
+├── src/
+│   ├── posts/
+│   │   ├── first-post.md
+│   │   └── another-post.md
+│   ├── about.md
+│   └── index.md
+├── _includes/
+│   └── layouts/
+│       └── base.njk
+├── .eleventy.js
+└── package.json&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;src/ holds your content (Markdown files).&lt;/li&gt;
+&lt;li&gt;posts/ can hold your blog posts.&lt;/li&gt;
+&lt;li&gt;_includes/layouts/ holds shared layout templates (e.g. base or post layout).&lt;/li&gt;
+&lt;li&gt;.eleventy.js is your configuration file.&lt;/li&gt;
+&lt;li&gt;package.json to manage dependencies and scripts.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A minimal .eleventy.js might look like:&lt;/p&gt;
+&lt;pre class=&quot;language-js&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function-variable function&quot;&gt;exports&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;eleventyConfig&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;dir&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token literal-property property&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;src&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token literal-property property&quot;&gt;includes&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;_includes&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token literal-property property&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;dist&quot;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;markdownTemplateEngine&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;njk&quot;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In your layout template (e.g. base.njk), you’d include standard HTML head tags, metadata, and placeholders for content and SEO meta tags.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Writing Blog Posts with SEO in Mind&lt;/h2&gt;
+&lt;p&gt;Use front matter in your Markdown files to define metadata. Example:&lt;/p&gt;
+&lt;pre class=&quot;language-md&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-md&quot;&gt;&lt;span class=&quot;token front-matter-block&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;token front-matter yaml language-yaml&quot;&gt;title: &quot;My First Blog Post&quot;
+date: 2025-09-26
+tags:
+  - eleventy
+  - static site
+description: &quot;An introduction to building a blog using Eleventy.&quot;
+layout: layouts/base.njk&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;---&lt;/span&gt;&lt;/span&gt;
+
+&lt;span class=&quot;token title important&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;#&lt;/span&gt; My First Blog Post&lt;/span&gt;
+
+This is where your post content goes.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Some tips for SEO:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Always include a concise description (meta description).&lt;/li&gt;
+&lt;li&gt;Use meaningful, keyword-rich post titles.&lt;/li&gt;
+&lt;li&gt;Use headings (##, ###) properly to structure content.&lt;/li&gt;
+&lt;li&gt;Add alt attributes to images.&lt;/li&gt;
+&lt;li&gt;Use internal linking (link between posts).&lt;/li&gt;
+&lt;li&gt;Generate a sitemap and use robots.txt to guide search engines.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Eleventy has plugins (or you can write your own filters) to generate a sitemap.xml and RSS feed.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Listing and Pagination&lt;/h2&gt;
+&lt;p&gt;To show a list of blog posts, you can create an index page (e.g. src/index.md) or a custom template that loops through all posts. Eleventy supports collections, which lets you group content — for example, a collection(&amp;quot;posts&amp;quot;) that contains all your posts sorted by date.&lt;/p&gt;
+&lt;p&gt;To implement pagination (e.g. showing 10 posts per page), Eleventy supports built-in pagination features so you can automatically split long lists into pages.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Enhancements &amp;amp; Plugins&lt;/h2&gt;
+&lt;p&gt;To improve your blog further, consider:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Syntax highlighting&lt;/strong&gt; for code blocks&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Image optimization&lt;/strong&gt; (automatically resizing, converting to WebP/AVIF)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Compressed CSS &amp;amp; JS&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Schema.org / JSON-LD&lt;/strong&gt; metadata for rich results&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Open Graph / Twitter Cards&lt;/strong&gt; metadata for social sharing&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RSS / Atom feeds&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Search&lt;/strong&gt; (via client-side search or integrating with services)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Many of these can be achieved with Eleventy plugins or custom scripts in your build process.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Deployment Strategies&lt;/h2&gt;
+&lt;p&gt;Because the result is static HTML, you can deploy your blog on:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;GitHub Pages&lt;/li&gt;
+&lt;li&gt;Netlify&lt;/li&gt;
+&lt;li&gt;Vercel&lt;/li&gt;
+&lt;li&gt;Any static file hosting or CDN&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You typically set up a build pipeline (e.g. GitHub Actions, Netlify build, or Vercel) that runs eleventy (or npx @11ty/eleventy) to regenerate the site upon changes.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Tips for Performance &amp;amp; SEO&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Minimize the use of heavy JavaScript; where needed, defer or lazy-load it.&lt;/li&gt;
+&lt;li&gt;Use caching headers (long cache lifetime) for static assets.&lt;/li&gt;
+&lt;li&gt;Preload or prefetch critical assets.&lt;/li&gt;
+&lt;li&gt;Use lazy loading for images.&lt;/li&gt;
+&lt;li&gt;Keep your HTML small and avoid unnecessary markup.&lt;/li&gt;
+&lt;li&gt;Update and publish new content regularly — search engines favor fresher content.&lt;/li&gt;
+&lt;li&gt;Monitor site performance (e.g. Lighthouse scores) and optimize bottlenecks.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Sample Article Walkthrough&lt;/h2&gt;
+&lt;p&gt;As an example, here’s how you’d create a new blog post:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Add a new Markdown file: src/posts/2025-10-01-intro-to-eleventy.md.&lt;/li&gt;
+&lt;li&gt;Add front matter with title, date, description, tags, layout.&lt;/li&gt;
+&lt;li&gt;Write the article content using headings, images, code blocks, links.&lt;/li&gt;
+&lt;li&gt;Push to your git repository (with build integration).&lt;/li&gt;
+&lt;li&gt;Your hosting platform runs a new build and publishes the updated site.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Because everything is static, the new HTML is served instantly without server processing.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Final Thoughts&lt;/h2&gt;
+&lt;p&gt;Eleventy strikes a sweet balance between simplicity and power. You get the control and flexibility to structure your site your own way, while benefiting from performance, security, and SEO advantages. As your blog grows, you can layer on enhancements like image processing, search, or custom data sources, but the foundation remains clean and maintainable.&lt;/p&gt;
+&lt;p&gt;If you follow good content practices, keep your site lean, and leverage Eleventy’s features smartly, you’ll have a fast, SEO-friendly blog that’s a pleasure to build, maintain, and read.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>How to Host a Free Static Website with GitHub Pages</title>
     <link href="https://example.com/blog/1/" />
-    <updated>2025-09-24T00:00:00Z</updated>
+    <updated>2025-09-26T00:00:00Z</updated>
     <id>https://example.com/blog/1/</id>
-    <content type="html">&lt;p&gt;Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.&lt;/p&gt;
-&lt;p&gt;Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.&lt;/p&gt;
-&lt;h2&gt;Section Header&lt;/h2&gt;
-&lt;p&gt;Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.&lt;/p&gt;
-&lt;pre class=&quot;language-diff-js&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-diff-js&quot;&gt;&lt;span class=&quot;token unchanged language-js&quot;&gt;&lt;span class=&quot;token prefix unchanged&quot;&gt; &lt;/span&gt;&lt;span class=&quot;token comment&quot;&gt;// this is a command&lt;/span&gt;
-&lt;span class=&quot;token prefix unchanged&quot;&gt; &lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;myCommand&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;span class=&quot;token inserted-sign inserted language-js&quot;&gt;&lt;span class=&quot;token prefix inserted&quot;&gt;+&lt;/span&gt;  &lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; counter &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;/span&gt;&lt;span class=&quot;token deleted-sign deleted language-js&quot;&gt;&lt;span class=&quot;token prefix deleted&quot;&gt;-&lt;/span&gt;  &lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; counter &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;/span&gt;&lt;span class=&quot;token unchanged language-js&quot;&gt;&lt;span class=&quot;token prefix unchanged&quot;&gt; &lt;/span&gt;  counter&lt;span class=&quot;token operator&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token prefix unchanged&quot;&gt; &lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
-&lt;/span&gt;
-&lt;span class=&quot;token unchanged language-js&quot;&gt;&lt;span class=&quot;token prefix unchanged&quot;&gt; &lt;/span&gt;&lt;span class=&quot;token comment&quot;&gt;// Test with a line break above this line.&lt;/span&gt;
-&lt;span class=&quot;token prefix unchanged&quot;&gt; &lt;/span&gt;console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Test&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+    <content type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;If you have a simple website built with HTML, CSS, and JavaScript (or generated output from a static site generator), you can host it completely &lt;strong&gt;for free&lt;/strong&gt; using GitHub Pages. No server management, no backend, no hosting bills. In this article, you’ll learn how to get your static site online using GitHub Pages, configure a custom domain, optimize for SEO, and maintain your site efficiently.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;What Is GitHub Pages?&lt;/h2&gt;
+&lt;p&gt;GitHub Pages is a static site hosting service offered by GitHub. It takes the static files (HTML, CSS, JavaScript) from a repository and publishes them as a website. It supports optional build steps (such as using Jekyll) and enables global delivery via HTTPS.&lt;/p&gt;
+&lt;p&gt;There are two main types of GitHub Pages sites:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;User / organization site&lt;/strong&gt; — your repository must be named &lt;code&gt;username.github.io&lt;/code&gt;, and the site is published at &lt;code&gt;https://username.github.io&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Project site&lt;/strong&gt; — any repository can publish a site under &lt;code&gt;https://username.github.io/repository-name&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;GitHub Pages is available for public repositories on GitHub Free, and supports HTTPS, custom domains, and automatic build/deployment from branches.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Why Choose GitHub Pages?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;It’s &lt;strong&gt;free&lt;/strong&gt; for static content.&lt;/li&gt;
+&lt;li&gt;Easy versioning and deployment via Git.&lt;/li&gt;
+&lt;li&gt;Built-in support for Jekyll (Markdown + templating).&lt;/li&gt;
+&lt;li&gt;You can push updates and have them go live automatically.&lt;/li&gt;
+&lt;li&gt;Ability to use your own domain with HTTPS.&lt;/li&gt;
+&lt;li&gt;Great choice for portfolios, documentation, blogs (static), project sites, and marketing pages.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;However, note that GitHub Pages only supports static content — you cannot run server-side code (e.g. PHP, Node, Python backend) or databases natively.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Step-by-Step: Publishing Your Static Website&lt;/h2&gt;
+&lt;h3&gt;1. Create (or use) a GitHub account&lt;/h3&gt;
+&lt;p&gt;If you don’t already have one, sign up on GitHub and verify your email.&lt;/p&gt;
+&lt;h3&gt;2. Create a repository for your site&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;For a &lt;strong&gt;user/organization site&lt;/strong&gt;, name the repo exactly &lt;code&gt;username.github.io&lt;/code&gt; (replace &lt;code&gt;username&lt;/code&gt; with your GitHub username).&lt;/li&gt;
+&lt;li&gt;For a &lt;strong&gt;project site&lt;/strong&gt;, choose any repository name.&lt;/li&gt;
+&lt;li&gt;Make the repository &lt;strong&gt;public&lt;/strong&gt; (free GitHub Pages requires public repos for publishing).&lt;/li&gt;
+&lt;li&gt;Optionally initialize with a &lt;code&gt;README.md&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;3. Add your website files&lt;/h3&gt;
+&lt;p&gt;You need at minimum an &lt;code&gt;index.html&lt;/code&gt; (or &lt;code&gt;index.md&lt;/code&gt;) file in the root (or publishing folder). You can use:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Web interface&lt;/strong&gt;: upload your HTML, CSS, JS, images via GitHub’s “Add file → Upload files”.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Local Git&lt;/strong&gt;: clone the repository, add your site files, commit, and push.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ensure your internal links are relative, and your assets (CSS, JS, images) are correctly referenced.&lt;/p&gt;
+&lt;h3&gt;4. Enable GitHub Pages in settings&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Go to your repository’s &lt;strong&gt;Settings → Pages&lt;/strong&gt; (or “Code and automation → Pages”).&lt;/li&gt;
+&lt;li&gt;Under “Build and deployment”, select a &lt;strong&gt;branch&lt;/strong&gt; (commonly &lt;code&gt;main&lt;/code&gt; or &lt;code&gt;master&lt;/code&gt;) and choose the folder (&lt;code&gt;/&lt;/code&gt; root or a subfolder like &lt;code&gt;/docs&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Save that configuration.&lt;/li&gt;
+&lt;li&gt;Wait a few minutes for GitHub to build and publish your site.&lt;/li&gt;
+&lt;li&gt;Your site will be available at &lt;code&gt;https://username.github.io&lt;/code&gt; or &lt;code&gt;https://username.github.io/repo-name&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;5. Use a custom domain (optional)&lt;/h3&gt;
+&lt;p&gt;To use your own domain (e.g. &lt;code&gt;www.example.com&lt;/code&gt;), do the following:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;In your repository’s Pages settings, add the custom domain (e.g. &lt;code&gt;www.example.com&lt;/code&gt;). GitHub will expect a file &lt;code&gt;CNAME&lt;/code&gt; containing that domain in the publishing branch.&lt;/li&gt;
+&lt;li&gt;In your DNS settings:
+&lt;ul&gt;
+&lt;li&gt;For a subdomain (&lt;code&gt;www&lt;/code&gt;), point a &lt;strong&gt;CNAME&lt;/strong&gt; record to &lt;code&gt;username.github.io&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;For a root/apex domain, add &lt;strong&gt;A&lt;/strong&gt; records pointing to GitHub Pages’ IP addresses (e.g. &lt;code&gt;185.199.108.153&lt;/code&gt;, &lt;code&gt;185.199.109.153&lt;/code&gt;, &lt;code&gt;185.199.110.153&lt;/code&gt;, &lt;code&gt;185.199.111.153&lt;/code&gt;).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Wait for DNS propagation (can take minutes to hours).&lt;/li&gt;
+&lt;li&gt;In GitHub settings, enable “Enforce HTTPS” (if available) for your custom domain.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;6. Update and maintain your site&lt;/h3&gt;
+&lt;p&gt;Whenever you want to change content:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Edit files locally or via GitHub interface.&lt;/li&gt;
+&lt;li&gt;Commit and push changes to the publishing branch.&lt;/li&gt;
+&lt;li&gt;GitHub Pages will automatically rebuild and republish your site (usually within a few minutes).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If you are using a static site generator (like Jekyll, Hugo, etc.), you may build locally and push the generated output, or use a GitHub Actions workflow to build and deploy.&lt;/p&gt;
+&lt;h3&gt;7. Disable Jekyll (if needed)&lt;/h3&gt;
+&lt;p&gt;If you don’t want GitHub to process your site with Jekyll (for example, if you&#39;re using another build tool), you can add an empty file named &lt;code&gt;.nojekyll&lt;/code&gt; in the root of your publishing branch to disable Jekyll processing.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;SEO &amp;amp; Best Practice Tips&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Give each page a &lt;strong&gt;unique title&lt;/strong&gt; and &lt;strong&gt;meta description&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Use proper header tags (H1, H2, H3) semantically.&lt;/li&gt;
+&lt;li&gt;Ensure your site is &lt;strong&gt;mobile-responsive&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Use &lt;strong&gt;alt&lt;/strong&gt; text on images for accessibility and SEO.&lt;/li&gt;
+&lt;li&gt;Generate and publish&lt;/li&gt;
+&lt;/ul&gt;
 </content>
   </entry>
   <entry>

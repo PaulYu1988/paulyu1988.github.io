@@ -4,8 +4,8 @@
 		
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>This is my first post.</title>
-		<meta name="description" content="This is a post on My Blog about agile frameworks.">
+		<title>How to Host a Free Static Website with GitHub Pages</title>
+		<meta name="description" content="Learn how to host a static website for free using GitHub Pages. This step-by-step guide covers repository setup, deployment, custom domains, SEO tips, and best practices.">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="PaulYu&#39;s Blog">
 		
 		
@@ -13,7 +13,7 @@
 		
 		<link rel="stylesheet" href="/assets/bootstrap-5.3.8/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-		<link rel="stylesheet" href="/dist/Xc3J-L71K1.css">
+		<link rel="stylesheet" href="/dist/ax4_CDzihw.css">
 		
 	</head>
 	<body class="h-100 d-flex flex-column">
@@ -61,36 +61,102 @@
 				
 
 
+
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">Archive</li>
   </ol>
 </nav>
-<h1>This is my first post.</h1>
-<div class="mb-3">
-	<time class="me-2" datetime="2025-09-24">24 September 2025</time>
-	<a class="me-2" href="/tags/net/">.NET</a>
-	<a class="me-2" href="/tags/c/">C#</a>
+<h1 class="fs-4">How to Host a Free Static Website with GitHub Pages</h1>
+<div class="mb-3 fs-6">
+	<time class="me-2 text-body-secondary fs-6" datetime="2025-09-26">26 September 2025</time>
+	<a class="me-2 fs-6" href="/tags/github-pages/">GitHub Pages</a>
 </div>
-<div class="mb-3">
-<p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.</p>
-<p>Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.</p>
-<h2>Section Header</h2>
-<p>Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.</p>
-<pre class="language-diff-js" tabindex="0"><code class="language-diff-js"><span class="token unchanged language-js"><span class="token prefix unchanged"> </span><span class="token comment">// this is a command</span>
-<span class="token prefix unchanged"> </span><span class="token keyword">function</span> <span class="token function">myCommand</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="token inserted-sign inserted language-js"><span class="token prefix inserted">+</span>  <span class="token keyword">let</span> counter <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-</span><span class="token deleted-sign deleted language-js"><span class="token prefix deleted">-</span>  <span class="token keyword">let</span> counter <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-</span><span class="token unchanged language-js"><span class="token prefix unchanged"> </span>  counter<span class="token operator">++</span><span class="token punctuation">;</span>
-<span class="token prefix unchanged"> </span><span class="token punctuation">}</span>
-</span>
-<span class="token unchanged language-js"><span class="token prefix unchanged"> </span><span class="token comment">// Test with a line break above this line.</span>
-<span class="token prefix unchanged"> </span>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Test'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</span></code></pre>
+<div class="mb-3 post-content">
+<h2>Introduction</h2>
+<p>If you have a simple website built with HTML, CSS, and JavaScript (or generated output from a static site generator), you can host it completely <strong>for free</strong> using GitHub Pages. No server management, no backend, no hosting bills. In this article, you’ll learn how to get your static site online using GitHub Pages, configure a custom domain, optimize for SEO, and maintain your site efficiently.</p>
+<hr>
+<h2>What Is GitHub Pages?</h2>
+<p>GitHub Pages is a static site hosting service offered by GitHub. It takes the static files (HTML, CSS, JavaScript) from a repository and publishes them as a website. It supports optional build steps (such as using Jekyll) and enables global delivery via HTTPS.</p>
+<p>There are two main types of GitHub Pages sites:</p>
+<ul>
+<li><strong>User / organization site</strong> — your repository must be named <code>username.github.io</code>, and the site is published at <code>https://username.github.io</code>.</li>
+<li><strong>Project site</strong> — any repository can publish a site under <code>https://username.github.io/repository-name</code>.</li>
+</ul>
+<p>GitHub Pages is available for public repositories on GitHub Free, and supports HTTPS, custom domains, and automatic build/deployment from branches.</p>
+<hr>
+<h2>Why Choose GitHub Pages?</h2>
+<ul>
+<li>It’s <strong>free</strong> for static content.</li>
+<li>Easy versioning and deployment via Git.</li>
+<li>Built-in support for Jekyll (Markdown + templating).</li>
+<li>You can push updates and have them go live automatically.</li>
+<li>Ability to use your own domain with HTTPS.</li>
+<li>Great choice for portfolios, documentation, blogs (static), project sites, and marketing pages.</li>
+</ul>
+<p>However, note that GitHub Pages only supports static content — you cannot run server-side code (e.g. PHP, Node, Python backend) or databases natively.</p>
+<hr>
+<h2>Step-by-Step: Publishing Your Static Website</h2>
+<h3>1. Create (or use) a GitHub account</h3>
+<p>If you don’t already have one, sign up on GitHub and verify your email.</p>
+<h3>2. Create a repository for your site</h3>
+<ul>
+<li>For a <strong>user/organization site</strong>, name the repo exactly <code>username.github.io</code> (replace <code>username</code> with your GitHub username).</li>
+<li>For a <strong>project site</strong>, choose any repository name.</li>
+<li>Make the repository <strong>public</strong> (free GitHub Pages requires public repos for publishing).</li>
+<li>Optionally initialize with a <code>README.md</code>.</li>
+</ul>
+<h3>3. Add your website files</h3>
+<p>You need at minimum an <code>index.html</code> (or <code>index.md</code>) file in the root (or publishing folder). You can use:</p>
+<ul>
+<li><strong>Web interface</strong>: upload your HTML, CSS, JS, images via GitHub’s “Add file → Upload files”.</li>
+<li><strong>Local Git</strong>: clone the repository, add your site files, commit, and push.</li>
+</ul>
+<p>Ensure your internal links are relative, and your assets (CSS, JS, images) are correctly referenced.</p>
+<h3>4. Enable GitHub Pages in settings</h3>
+<ul>
+<li>Go to your repository’s <strong>Settings → Pages</strong> (or “Code and automation → Pages”).</li>
+<li>Under “Build and deployment”, select a <strong>branch</strong> (commonly <code>main</code> or <code>master</code>) and choose the folder (<code>/</code> root or a subfolder like <code>/docs</code>).</li>
+<li>Save that configuration.</li>
+<li>Wait a few minutes for GitHub to build and publish your site.</li>
+<li>Your site will be available at <code>https://username.github.io</code> or <code>https://username.github.io/repo-name</code>.</li>
+</ul>
+<h3>5. Use a custom domain (optional)</h3>
+<p>To use your own domain (e.g. <code>www.example.com</code>), do the following:</p>
+<ol>
+<li>In your repository’s Pages settings, add the custom domain (e.g. <code>www.example.com</code>). GitHub will expect a file <code>CNAME</code> containing that domain in the publishing branch.</li>
+<li>In your DNS settings:
+<ul>
+<li>For a subdomain (<code>www</code>), point a <strong>CNAME</strong> record to <code>username.github.io</code>.</li>
+<li>For a root/apex domain, add <strong>A</strong> records pointing to GitHub Pages’ IP addresses (e.g. <code>185.199.108.153</code>, <code>185.199.109.153</code>, <code>185.199.110.153</code>, <code>185.199.111.153</code>).</li>
+</ul>
+</li>
+<li>Wait for DNS propagation (can take minutes to hours).</li>
+<li>In GitHub settings, enable “Enforce HTTPS” (if available) for your custom domain.</li>
+</ol>
+<h3>6. Update and maintain your site</h3>
+<p>Whenever you want to change content:</p>
+<ul>
+<li>Edit files locally or via GitHub interface.</li>
+<li>Commit and push changes to the publishing branch.</li>
+<li>GitHub Pages will automatically rebuild and republish your site (usually within a few minutes).</li>
+</ul>
+<p>If you are using a static site generator (like Jekyll, Hugo, etc.), you may build locally and push the generated output, or use a GitHub Actions workflow to build and deploy.</p>
+<h3>7. Disable Jekyll (if needed)</h3>
+<p>If you don’t want GitHub to process your site with Jekyll (for example, if you're using another build tool), you can add an empty file named <code>.nojekyll</code> in the root of your publishing branch to disable Jekyll processing.</p>
+<hr>
+<h2>SEO &amp; Best Practice Tips</h2>
+<ul>
+<li>Give each page a <strong>unique title</strong> and <strong>meta description</strong>.</li>
+<li>Use proper header tags (H1, H2, H3) semantically.</li>
+<li>Ensure your site is <strong>mobile-responsive</strong>.</li>
+<li>Use <strong>alt</strong> text on images for accessibility and SEO.</li>
+<li>Generate and publish</li>
+</ul>
 
 </div>
-<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/4/">This is my second post with a much longer title.</a></li>
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/4/">This is my second post with a much longer title.</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/2/">How to Build a High-Performance Blog with Eleventy</a></li>
 </ul>
 
 			</main>
@@ -102,7 +168,7 @@
 				</p>
 			</div>
 		</footer>
-		<!-- This page `/blog/1/` was built on 2025-09-25T11:28:54.243Z -->
+		<!-- This page `/blog/1/` was built on 2025-09-26T07:56:07.407Z -->
 		<script type="module" src="/assets/bootstrap-5.3.8/js/bootstrap.bundle.min.js"></script>
 		<script type="module" src="/dist/qqqrY9SWGy.js"></script>
 	</body>

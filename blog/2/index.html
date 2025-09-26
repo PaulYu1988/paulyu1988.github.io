@@ -1,0 +1,221 @@
+<!doctype html>
+<html class="h-100" lang="en">
+	<head>
+		
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>How to Build a High-Performance Blog with Eleventy</title>
+		<meta name="description" content="Learn how to create a fast, SEO-friendly blog using Eleventy (11ty). This guide walks you through setup, content structure, SEO best practices, and deployment strategies.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="PaulYu&#39;s Blog">
+		
+		
+		
+		
+		<link rel="stylesheet" href="/assets/bootstrap-5.3.8/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+		<link rel="stylesheet" href="/dist/ax4_CDzihw.css">
+		
+	</head>
+	<body class="h-100 d-flex flex-column">
+		<header>
+			<nav class="navbar border-bottom border-body navbar-expand-lg">
+				<div class="container">
+					<a class="navbar-brand" href="#">PaulYu&#39;s Blog</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link " href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link " href="/archive/">Archive</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link " href="/about/">About</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link " href="/feed/feed.xml">Feed</a>
+							</li>
+						<li class="nav-item">
+							<a class="nav-link" href="https://github.com/PaulYu1988" target="_blank"><i class="bi bi-github"></i></a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<i id="theme-icon" class="bi bi-brightness-high-fill"></i>
+							</a>
+							<ul class="dropdown-menu dropdown-menu-end">
+								<li><a class="dropdown-item theme-item" data-theme="light" href="#"><i class="bi bi-brightness-high-fill"></i> Light</a></li>
+								<li><a class="dropdown-item theme-item" data-theme="dark" href="#"><i class="bi bi-moon-stars-fill"></i> Dark</a></li>
+								<li><a class="dropdown-item theme-item" data-theme="auto" href="#"><i class="bi bi-circle-half"></i> Auto</a></li>
+							</ul>
+						</li>
+					</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<div class="container flex-grow-1">
+			<main id="main" class="mt-4">
+				
+
+
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Archive</li>
+  </ol>
+</nav>
+<h1 class="fs-4">How to Build a High-Performance Blog with Eleventy</h1>
+<div class="mb-3 fs-6">
+	<time class="me-2 text-body-secondary fs-6" datetime="2025-09-26">26 September 2025</time>
+</div>
+<div class="mb-3 post-content">
+<h2>Introduction</h2>
+<p>If you’re looking to build a blog that’s fast, lightweight, and easy to maintain, Eleventy (also known as 11ty) is an excellent choice. It lets you write content in Markdown, combine that with flexible templates, and generate a static site you can deploy anywhere. In this article, I’ll walk you through the essential steps, best practices, and tips to build your Eleventy blog in a way that’s optimized for performance and SEO.</p>
+<hr>
+<h2>What Is Eleventy and Why Use It?</h2>
+<p>Eleventy is a static site generator built in JavaScript. It transforms content and templates into static HTML files at build time, rather than generating pages dynamically on each request. This leads to faster page loads, simpler hosting, and lower maintenance.</p>
+<p>Key advantages of Eleventy include:</p>
+<ul>
+<li>Support for many template languages (Markdown, Nunjucks, Liquid, etc.)</li>
+<li>Minimal required configuration — it works out of the box</li>
+<li>Flexibility to structure your project as you like</li>
+<li>Good support for SEO (metadata, sitemap, clean URLs)</li>
+<li>Easy deployment on static hosts or CDNs</li>
+</ul>
+<p>Because pages are pre-rendered, there’s no backend database or server logic involved, which reduces complexity and improves security.</p>
+<hr>
+<h2>Project Structure &amp; Setup</h2>
+<p>Here’s a typical folder layout for an Eleventy blog:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">my-blog/
+├── src/
+│   ├── posts/
+│   │   ├── first-post.md
+│   │   └── another-post.md
+│   ├── about.md
+│   └── index.md
+├── _includes/
+│   └── layouts/
+│       └── base.njk
+├── .eleventy.js
+└── package.json</code></pre>
+<ul>
+<li>src/ holds your content (Markdown files).</li>
+<li>posts/ can hold your blog posts.</li>
+<li>_includes/layouts/ holds shared layout templates (e.g. base or post layout).</li>
+<li>.eleventy.js is your configuration file.</li>
+<li>package.json to manage dependencies and scripts.</li>
+</ul>
+<p>A minimal .eleventy.js might look like:</p>
+<pre class="language-js" tabindex="0"><code class="language-js">module<span class="token punctuation">.</span><span class="token function-variable function">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">eleventyConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">dir</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token literal-property property">input</span><span class="token operator">:</span> <span class="token string">"src"</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">includes</span><span class="token operator">:</span> <span class="token string">"_includes"</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">output</span><span class="token operator">:</span> <span class="token string">"dist"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">markdownTemplateEngine</span><span class="token operator">:</span> <span class="token string">"njk"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>In your layout template (e.g. base.njk), you’d include standard HTML head tags, metadata, and placeholders for content and SEO meta tags.</p>
+<hr>
+<h2>Writing Blog Posts with SEO in Mind</h2>
+<p>Use front matter in your Markdown files to define metadata. Example:</p>
+<pre class="language-md" tabindex="0"><code class="language-md"><span class="token front-matter-block"><span class="token punctuation">---</span>
+<span class="token front-matter yaml language-yaml">title: "My First Blog Post"
+date: 2025-09-26
+tags:
+  - eleventy
+  - static site
+description: "An introduction to building a blog using Eleventy."
+layout: layouts/base.njk</span>
+<span class="token punctuation">---</span></span>
+
+<span class="token title important"><span class="token punctuation">#</span> My First Blog Post</span>
+
+This is where your post content goes.
+</code></pre>
+<p>Some tips for SEO:</p>
+<ul>
+<li>Always include a concise description (meta description).</li>
+<li>Use meaningful, keyword-rich post titles.</li>
+<li>Use headings (##, ###) properly to structure content.</li>
+<li>Add alt attributes to images.</li>
+<li>Use internal linking (link between posts).</li>
+<li>Generate a sitemap and use robots.txt to guide search engines.</li>
+</ul>
+<p>Eleventy has plugins (or you can write your own filters) to generate a sitemap.xml and RSS feed.</p>
+<hr>
+<h2>Listing and Pagination</h2>
+<p>To show a list of blog posts, you can create an index page (e.g. src/index.md) or a custom template that loops through all posts. Eleventy supports collections, which lets you group content — for example, a collection(&quot;posts&quot;) that contains all your posts sorted by date.</p>
+<p>To implement pagination (e.g. showing 10 posts per page), Eleventy supports built-in pagination features so you can automatically split long lists into pages.</p>
+<hr>
+<h2>Enhancements &amp; Plugins</h2>
+<p>To improve your blog further, consider:</p>
+<ul>
+<li><strong>Syntax highlighting</strong> for code blocks</li>
+<li><strong>Image optimization</strong> (automatically resizing, converting to WebP/AVIF)</li>
+<li><strong>Compressed CSS &amp; JS</strong></li>
+<li><strong>Schema.org / JSON-LD</strong> metadata for rich results</li>
+<li><strong>Open Graph / Twitter Cards</strong> metadata for social sharing</li>
+<li><strong>RSS / Atom feeds</strong></li>
+<li><strong>Search</strong> (via client-side search or integrating with services)</li>
+</ul>
+<p>Many of these can be achieved with Eleventy plugins or custom scripts in your build process.</p>
+<hr>
+<h2>Deployment Strategies</h2>
+<p>Because the result is static HTML, you can deploy your blog on:</p>
+<ul>
+<li>GitHub Pages</li>
+<li>Netlify</li>
+<li>Vercel</li>
+<li>Any static file hosting or CDN</li>
+</ul>
+<p>You typically set up a build pipeline (e.g. GitHub Actions, Netlify build, or Vercel) that runs eleventy (or npx @11ty/eleventy) to regenerate the site upon changes.</p>
+<hr>
+<h2>Tips for Performance &amp; SEO</h2>
+<ul>
+<li>Minimize the use of heavy JavaScript; where needed, defer or lazy-load it.</li>
+<li>Use caching headers (long cache lifetime) for static assets.</li>
+<li>Preload or prefetch critical assets.</li>
+<li>Use lazy loading for images.</li>
+<li>Keep your HTML small and avoid unnecessary markup.</li>
+<li>Update and publish new content regularly — search engines favor fresher content.</li>
+<li>Monitor site performance (e.g. Lighthouse scores) and optimize bottlenecks.</li>
+</ul>
+<h2>Sample Article Walkthrough</h2>
+<p>As an example, here’s how you’d create a new blog post:</p>
+<ol>
+<li>Add a new Markdown file: src/posts/2025-10-01-intro-to-eleventy.md.</li>
+<li>Add front matter with title, date, description, tags, layout.</li>
+<li>Write the article content using headings, images, code blocks, links.</li>
+<li>Push to your git repository (with build integration).</li>
+<li>Your hosting platform runs a new build and publishes the updated site.</li>
+</ol>
+<p>Because everything is static, the new HTML is served instantly without server processing.</p>
+<hr>
+<h2>Final Thoughts</h2>
+<p>Eleventy strikes a sweet balance between simplicity and power. You get the control and flexibility to structure your site your own way, while benefiting from performance, security, and SEO advantages. As your blog grows, you can layer on enhancements like image processing, search, or custom data sources, but the foundation remains clean and maintainable.</p>
+<p>If you follow good content practices, keep your site lean, and leverage Eleventy’s features smartly, you’ll have a fast, SEO-friendly blog that’s a pleasure to build, maintain, and read.</p>
+
+</div>
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/1/">How to Host a Free Static Website with GitHub Pages</a></li>
+</ul>
+
+			</main>
+		</div>
+		<footer>
+			<div class="container">
+				<p class="text-center">
+					<em>Built with <a href="https://www.11ty.dev/">Eleventy v3.1.2</a></em>
+				</p>
+			</div>
+		</footer>
+		<!-- This page `/blog/2/` was built on 2025-09-26T07:56:07.408Z -->
+		<script type="module" src="/assets/bootstrap-5.3.8/js/bootstrap.bundle.min.js"></script>
+		<script type="module" src="/dist/qqqrY9SWGy.js"></script>
+	</body>
+</html>
