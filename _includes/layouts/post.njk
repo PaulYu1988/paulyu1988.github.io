@@ -5,30 +5,36 @@ layout: layouts/base.njk
 <style>{% include "node_modules/prismjs/themes/prism-okaidia.css" %}</style>
 <style>{% include "css/prism-diff.css" %}</style>
 <style>{% include "css/site.css" %}</style>
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Archive</li>
-  </ol>
-</nav>
-<h1 class="fs-4">{{ title }}</h1>
-<div class="mb-3 fs-6">
-	<time class="me-2 text-body-secondary fs-6" datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time>
-	{%- for tag in tags | filterTagList %}
-	{%- set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
-	<a class="me-2 fs-6" href="{{ tagUrl }}">{{ tag }}</a>
-	{%- endfor %}
+<div class="row">
+	<div class="col-lg-9">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Archive</li>
+			</ol>
+		</nav>
+		<h1 class="fs-4">{{ title }}</h1>
+		<div class="mb-3 fs-6">
+			<time class="me-2 text-body-secondary fs-6" datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time>
+			{%- for tag in tags | filterTagList %}
+				{%- set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
+				<a class="me-2 fs-6" href="{{ tagUrl }}">{{ tag }}</a>
+			{%- endfor %}
+		</div>
+		<div class="mb-3 post-content">
+		{{ content | safe }}
+		</div>
+		{%- if collections.posts %}
+			{%- set previousPost = collections.posts | getPreviousCollectionItem %}
+			{%- set nextPost = collections.posts | getNextCollectionItem %}
+			{%- if nextPost or previousPost %}
+			<ul class="links-nextprev">
+				{%- if previousPost %}<li class="links-nextprev-prev">← Previous<br> <a href="{{ previousPost.url }}">{{ previousPost.data.title }}</a></li>{% endif %}
+				{%- if nextPost %}<li class="links-nextprev-next">Next →<br><a href="{{ nextPost.url }}">{{ nextPost.data.title }}</a></li>{% endif %}
+			</ul>
+			{%- endif %}
+		{%- endif %}
+	</div>
+	<div class="col-lg-3"></div>
 </div>
-<div class="mb-3 post-content">
-{{ content | safe }}
-</div>
-{%- if collections.posts %}
-{%- set previousPost = collections.posts | getPreviousCollectionItem %}
-{%- set nextPost = collections.posts | getNextCollectionItem %}
-{%- if nextPost or previousPost %}
-<ul class="links-nextprev">
-	{%- if previousPost %}<li class="links-nextprev-prev">← Previous<br> <a href="{{ previousPost.url }}">{{ previousPost.data.title }}</a></li>{% endif %}
-	{%- if nextPost %}<li class="links-nextprev-next">Next →<br><a href="{{ nextPost.url }}">{{ nextPost.data.title }}</a></li>{% endif %}
-</ul>
-{%- endif %}
-{%- endif %}
+
