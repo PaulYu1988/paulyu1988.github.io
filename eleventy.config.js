@@ -83,7 +83,29 @@ export default async function(eleventyConfig) {
 		return result;
 	});
 
-	// 你还可以加一些日期格式化的过滤器，比如把 “2025-08” 转成 “2025 年 08 月” 或 “Aug 2025” 等
+	eleventyConfig.addCollection("postsByTag", collection => {
+		const tagMap = new Map();
+		collection.getAllSorted().filter(item => item.data.tags && item.data.tags.includes("posts")).forEach(item => {
+			const tags = item.data.tags;
+			if (!tags) return;
+			const tagArray = Array.isArray(tags) ? tags : [tags];
+
+			tagArray.forEach(tag => {
+				// ignore Eleventy global tags or which you do not want to include
+				if (!tag || ['all', 'site', 'posts'].includes(tag)) return;
+
+				if (!tagMap.has(tag)) tagMap.set(tag, []);
+				tagMap.get(tag).push(item);
+			});
+		});
+		const result = Array.from(tagMap, ([key, posts]) => ({
+			key,
+			posts
+		}));
+		result.sort((a, b) => b.posts.length - a.posts.length);
+		return result;
+	});
+
 	eleventyConfig.addFilter("yearFromYearMonth", key => {
 		return key.split("-")[0];
 	});
