@@ -32,42 +32,49 @@
 		
 		<url>
 			<loc>https://example.com/about/</loc>
-			<lastmod>2025-09-29</lastmod>
+			<lastmod>2025-10-01</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://example.com/archive/Website/</loc>
+			<lastmod>2025-10-01</lastmod>
 		</url>
 	
 	
 		
 		<url>
 			<loc>https://example.com/archive/202509/</loc>
-			<lastmod>2025-09-29</lastmod>
+			<lastmod>2025-10-01</lastmod>
 		</url>
 	
 	
 		
 		<url>
 			<loc>https://example.com/archive/</loc>
-			<lastmod>2025-09-29</lastmod>
+			<lastmod>2025-10-01</lastmod>
 		</url>
 	
 	
 		
 		<url>
 			<loc>https://example.com/</loc>
-			<lastmod>2025-09-29</lastmod>
+			<lastmod>2025-10-01</lastmod>
 		</url>
 	
 	
 		
 		<url>
 			<loc>https://example.com/tags/</loc>
-			<lastmod>2025-09-29</lastmod>
+			<lastmod>2025-10-01</lastmod>
 		</url>
 	
 	
 		
 		<url>
 			<loc>https://example.com/feed/feed.xml</loc>
-			<lastmod>2025-09-29</lastmod>
+			<lastmod>2025-10-01</lastmod>
 		</url>
 	
 </urlset>
