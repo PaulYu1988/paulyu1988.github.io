@@ -72,14 +72,21 @@ const eleventyComputed = {
 	</div>
 	<div class="col-lg-3">
 		<div class="mb-4">
-			<h3 class="fs-6 pb-2 mb-3 border-bottom"><i class="bi bi-archive"></i> Monthly Archives</h3>
+			<h3 class="fs-6 pb-2 mb-3 border-bottom"><i class="bi bi-archive"></i> Category Archive</h3>
 			<ul class="m-0 p-0">
-				<li class="d-flex justify-content-between align-items-center mb-2">
-						<a href="/archive/">
-							All
+				{% for item in collections.postsByCategory %}
+					<li class="d-flex justify-content-between align-items-center mb-2">
+						<a class="text-secondary" href="/archive/{{ item.category }}/">
+							{{ item.category }}
 						</a>
-						<span class="badge text-bg-light">{{ collections.posts.length }}</span>
-				</li>
+						<span class="badge text-bg-light">{{ item.posts.length }}</span>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="mb-4">
+			<h3 class="fs-6 pb-2 mb-3 border-bottom"><i class="bi bi-archive"></i> Monthly Archive</h3>
+			<ul class="m-0 p-0">
 				{% for item in collections.postsByYearMonth %}
 					{% set ym = item.yearMonth %}
 					{% set year = ym | yearFromYearMonth %}

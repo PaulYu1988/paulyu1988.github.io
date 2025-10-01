@@ -1,8 +1,19 @@
-<h1>Tags</h1>
-
-<ul>
-{% for tag in collections | getKeys | filterTagList | sortAlphabetically %}
-	{% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
-	<li><a href="{{ tagUrl }}" class="post-tag">{{ tag }}</a></li>
-{% endfor %}
-</ul>
+<div class="row">
+	<div class="col-lg-9">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Tags</li>
+			</ol>
+		</nav>
+		<h2 class="fs-6">Tags</h2>
+		<ul>
+			{% for tag in collections | getKeys | filterTagList | sortAlphabetically %}
+				{% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
+				<li><a href="{{ tagUrl }}" class="post-tag">{{ tag }}</a></li>
+			{% endfor %}
+		</ul>
+	</div>
+	<div class="col-lg-3">
+	</div>
+</div>

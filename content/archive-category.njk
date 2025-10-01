@@ -1,16 +1,16 @@
 ---js
 const pagination = {
-	data: 'collections.postsByYearMonthPages',
+	data: 'collections.postsByCategoryPages',
 	size: 1,
-	alias: 'ymGroup'
+	alias: 'category'
 }
 
 const eleventyComputed = {
 	permalink : function (data) {
-      if (data.ymGroup.pageNumber == 1) {
-        return `/archive/${data.ymGroup.code}/`;
+      if (data.category.pageNumber == 1) {
+        return `/archive/${data.category.category}/`;
       } else {
-        return `/archive/${data.ymGroup.code}/page/${data.ymGroup.pageNumber}/`;
+        return `/archive/${data.category.category}/page/${data.category.pageNumber}/`;
       }
     }
 }
@@ -21,12 +21,12 @@ const eleventyComputed = {
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="/">Home</a></li>
 				<li class="breadcrumb-item"><a href="/archive">Archive</a></li>
-				<li class="breadcrumb-item active" aria-current="page">{{ ymGroup.yearMonth | yearFromYearMonth }}-{{ ymGroup.yearMonth | monthFromYearMonth }}</li>
+				<li class="breadcrumb-item active" aria-current="page">{{ category.category }}</li>
 			</ol>
 		</nav>
-		<h2 class="fs-6">Monthly Archive: {{ ymGroup.yearMonth | yearFromYearMonth }}-{{ ymGroup.yearMonth | monthFromYearMonth }}</h2>
+		<h2 class="fs-6">Category Archive: {{ category.category }}</h2>
 		<ul class="mx-0 my-3 p-0">
-		{% for post in ymGroup.posts %}
+		{% for post in category.posts %}
 			<li class="py-2 d-flex justify-content-between align-items-center">
 			<a class="text-body" href="{{ post.url }}">{{ post.data.title or post.url }}</a>
 			<time datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate }}</time>
@@ -34,10 +34,10 @@ const eleventyComputed = {
 		{% endfor %}
 		</ul>
 
-		{% if ymGroup.pageCount > 1 %}
+		{% if category.pageCount > 1 %}
 			<nav aria-label="Page navigation example">
 				<ul class="pagination">
-				{% if ymGroup.pageNumber > 1 %}
+				{% if category.pageNumber > 1 %}
 					<li class="page-item">
 						<a class="page-link" href="" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
@@ -50,21 +50,21 @@ const eleventyComputed = {
 						</a>
 					</li>
 				{% endif %}
-				{% for i in range(1, ymGroup.pageCount + 1) %}
-					{% if i == ymGroup.pageNumber %}
+				{% for i in range(1, category.pageCount + 1) %}
+					{% if i == category.pageNumber %}
 						<li class="page-item active">
 							<a class="page-link" href="#" aria-current="page">{{ i }}</a>
 						</li>
 					{% else %}
 						{% if(i == 1) %}
-							<li class="page-item"><a class="page-link" href="/archive/{{ ymGroup.code }}/">{{ i }}</a></li>
+							<li class="page-item"><a class="page-link" href="/archive/{{ category.category }}/">{{ i }}</a></li>
 						{% else %}
-							<li class="page-item"><a class="page-link" href="/archive/{{ ymGroup.code }}/page/{{ i }}/">{{ i }}</a></li>
+							<li class="page-item"><a class="page-link" href="/archive/{{ category.category }}/page/{{ i }}/">{{ i }}</a></li>
 						{% endif %}
 					{% endif %}
 				{% endfor %}
 				
-				{% if ymGroup.pageNumber < ymGroup.pageCount %}
+				{% if category.pageNumber < category.pageCount %}
 					<li class="page-item">
 						<a class="page-link" href="" aria-label="Next">
 							<span aria-hidden="true">&raquo;</span>
@@ -86,12 +86,21 @@ const eleventyComputed = {
 			<h3 class="fs-6 pb-2 mb-3 border-bottom"><i class="bi bi-archive"></i> Category Archive</h3>
 			<ul class="m-0 p-0">
 				{% for item in collections.postsByCategory %}
-					<li class="d-flex justify-content-between align-items-center mb-2">
-						<a class="text-secondary" href="/archive/{{ item.category }}/">
-							{{ item.category }}
-						</a>
-						<span class="badge text-bg-light">{{ item.posts.length }}</span>
-					</li>
+					{% if (category.category == item.category) %}
+						<li class="d-flex justify-content-between align-items-center mb-2">
+							<a href="/archive/{{ item.category }}/">
+								{{ item.category }}
+							</a>
+							<span class="badge text-bg-light">{{ item.posts.length }}</span>
+						</li>
+					{% else %}
+						<li class="d-flex justify-content-between align-items-center mb-2">
+							<a class="text-secondary" href="/archive/{{ item.category }}/">
+								{{ item.category }}
+							</a>
+							<span class="badge text-bg-light">{{ item.posts.length }}</span>
+						</li>
+					{% endif %}
 				{% endfor %}
 			</ul>
 		</div>
@@ -102,21 +111,12 @@ const eleventyComputed = {
 					{% set ym = item.yearMonth %}
 					{% set year = ym | yearFromYearMonth %}
 					{% set month = ym | monthFromYearMonth %}
-					{% if (ymGroup.yearMonth == item.yearMonth) %}
-						<li class="d-flex justify-content-between align-items-center mb-2">
-							<a href="/archive/{{ year }}{{ month }}/">
-								{{ item.date | readableDate("LLLL yyyy") }}
-							</a>
-							<span class="badge text-bg-light">{{ item.posts.length }}</span>
-						</li>
-					{% else %}
-						<li class="d-flex justify-content-between align-items-center mb-2">
-							<a class="text-secondary" href="/archive/{{ year }}{{ month }}/">
-								{{ item.date | readableDate("LLLL yyyy") }}
-							</a>
-							<span class="badge text-bg-light">{{ item.posts.length }}</span>
-						</li>
-					{% endif %}
+					<li class="d-flex justify-content-between align-items-center mb-2">
+						<a class="text-secondary" href="/archive/{{ year }}{{ month }}/">
+							{{ item.date | readableDate("LLLL yyyy") }}
+						</a>
+						<span class="badge text-bg-light">{{ item.posts.length }}</span>
+					</li>
 				{% endfor %}
 			</ul>
 		</div>

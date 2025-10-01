@@ -8,6 +8,68 @@ import pluginFilters from "./_config/filters.js";
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function(eleventyConfig) {
+	eleventyConfig.addCollection("postsByCategory", collection => {
+		const all = collection.getAllSorted().filter(item => item.data.tags && item.data.tags.includes("posts"));
+		const groups = all.reduce((acc, post) => {
+			const key = post.data.category;
+			if (!acc[key]) {
+				acc[key] = [];
+			}
+			acc[key].push(post);
+			return acc;
+		}, {});
+		const pairs = Object.keys(groups)
+		.sort((a, b) => {
+			return b.localeCompare(a);
+		})
+		.map(key => {
+			return {
+				category: key,
+				posts: groups[key].sort((a, b) => b.date - a.date),
+			};
+		});
+		return pairs;
+	});
+	eleventyConfig.addCollection("postsByCategoryPages", collection => {
+		const all = collection.getAllSorted().filter(item => item.data.tags && item.data.tags.includes("posts"));
+		const groups = all.reduce((acc, post) => {
+			const key = post.data.category;
+			if (!acc[key]) {
+				acc[key] = [];
+			}
+			acc[key].push(post);
+			return acc;
+		}, {});
+		const size = 2;
+		const result = [];
+		const pairs = Object.keys(groups)
+		.sort((a, b) => {
+			return b.localeCompare(a);
+		});
+		pairs.forEach(key => {
+			var posts = groups[key].sort((a, b) => b.date - a.date);
+			if (posts.length > size) {
+				const pageCount = posts.length % size ==0 ? posts.length/size : Math.floor(posts.length/size) + 1;
+				for(var i = 0; i < pageCount; i++) {
+					var pagePosts = posts.slice(i*size, (i+1)*size);
+					result.push({
+						category: key,
+						posts: pagePosts,
+						pageNumber: i + 1,
+						pageCount: pageCount
+					});
+				}
+			} else {
+				result.push({
+					category: key,
+					posts: posts,
+					pageNumber: 1,
+					pageCount: 1
+				});
+			}
+		});
+		return result;
+	});
 	eleventyConfig.addCollection("postsByYearMonth", collection => {
 		const all = collection.getAllSorted().filter(item => item.data.tags && item.data.tags.includes("posts"));
 		const groups = all.reduce((acc, post) => {

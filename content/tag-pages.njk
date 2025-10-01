@@ -19,9 +19,20 @@ const eleventyComputed = {
 	}
 };
 ---
-<h1>Tagged “{{ tag }}”</h1>
-
-{% set postslist = collections[ tag ] %}
-{% include "postslist.njk" %}
-
-<p>See <a href="tags.njk">all tags</a>.</p>
+<div class="row">
+	<div class="col-lg-9">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item" aria-current="page"><a href="/tags">Tags</a></li>
+				<li class="breadcrumb-item active" aria-current="page">{{ tag }}</li>
+			</ol>
+		</nav>
+		<h2 class="fs-6">Tagged: {{ tag }}</h2>
+		{% set postslist = collections[ tag ] %}
+		{% include "postslist.njk" %}
+		<p>See <a href="tags.njk">all tags</a>.</p>
+	</div>
+	<div class="col-lg-3">
+	</div>
+</div>
