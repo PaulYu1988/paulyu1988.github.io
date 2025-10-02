@@ -38,6 +38,13 @@
 	
 		
 		<url>
+			<loc>https://example.com/blog/6/</loc>
+			<lastmod>2025-10-02</lastmod>
+		</url>
+	
+	
+		
+		<url>
 			<loc>https://example.com/about/</loc>
 			<lastmod>2025-10-02</lastmod>
 		</url>

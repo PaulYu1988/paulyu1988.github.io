@@ -11,6 +11,152 @@
     <name>Your Name</name>
   </author>
   <entry>
+    <title>Differences Between File and PhysicalFile in .NET Core</title>
+    <link href="https://example.com/blog/6/" />
+    <updated>2025-10-02T00:00:00Z</updated>
+    <id>https://example.com/blog/6/</id>
+    <content type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;When building web applications in ASP.NET Core (MVC, Web API, Razor Pages), you often need to return files for download or streaming (e.g. images, documents, media). The framework provides multiple helper methods and result types to simplify this, among which &lt;code&gt;File(...)&lt;/code&gt; and &lt;code&gt;PhysicalFile(...)&lt;/code&gt; are commonly used. While they might seem similar, there are subtle but important differences in how they interpret paths, support streaming, and handle range requests. Knowing which to use and when can help you avoid runtime errors and deliver better performance.&lt;/p&gt;
+&lt;p&gt;In this article, we&#39;ll break down:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;What &lt;code&gt;File(...)&lt;/code&gt; does under the hood&lt;/li&gt;
+&lt;li&gt;What &lt;code&gt;PhysicalFile(...)&lt;/code&gt; does&lt;/li&gt;
+&lt;li&gt;Their differences and edge cases&lt;/li&gt;
+&lt;li&gt;Example usage&lt;/li&gt;
+&lt;li&gt;Best practices and caveats&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Understanding &lt;code&gt;File(...)&lt;/code&gt; in ASP.NET Core&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;File(...)&lt;/code&gt; is a helper method available in controllers (inherited from &lt;code&gt;ControllerBase&lt;/code&gt;) and Razor Page handlers. It is polymorphic: there are multiple overloads supporting different input types:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Byte array: return in-memory data&lt;/li&gt;
+&lt;li&gt;Stream: return content from a stream&lt;/li&gt;
+&lt;li&gt;Virtual path / relative path: instruct the framework to find a file via its hosting environment (using &lt;code&gt;IFileProvider&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Because of these overloads, &lt;code&gt;File(...)&lt;/code&gt; is flexible. Internally, for the file-path–based overload, &lt;code&gt;File(...)&lt;/code&gt; often maps to a &lt;code&gt;VirtualFileResult&lt;/code&gt; (or similar) which expects a &lt;strong&gt;virtual path&lt;/strong&gt;, meaning a path relative to the web application’s root (or content root) rather than a full system path.&lt;/p&gt;
+&lt;p&gt;Key points about &lt;code&gt;File(...)&lt;/code&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The path parameter (when passing a string) is normally interpreted as a virtual path (e.g. &lt;code&gt;&amp;quot;/files/document.pdf&amp;quot;&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Because &lt;code&gt;File(...)&lt;/code&gt; uses virtual paths, it typically cannot access files outside the web root or content root.&lt;/li&gt;
+&lt;li&gt;Some overloads of &lt;code&gt;File(...)&lt;/code&gt; accept streams or byte arrays, bypassing path resolution entirely.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;File(...)&lt;/code&gt; overloads often allow an &lt;code&gt;enableRangeProcessing&lt;/code&gt; flag so that HTTP range requests (for partial downloads or video seeking) can be supported.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When the path you provide is not a valid virtual path (e.g. pointing to a full disk path outside the web root), &lt;code&gt;File(...)&lt;/code&gt; may fail with a file-not-found exception or similar error, because by default it doesn&#39;t assume arbitrary physical file access.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Understanding &lt;code&gt;PhysicalFile(...)&lt;/code&gt; / &lt;code&gt;PhysicalFileResult&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;PhysicalFile(...)&lt;/code&gt; is another helper method provided by ASP.NET Core controllers. It returns a &lt;code&gt;PhysicalFileResult&lt;/code&gt;. This class is specialized for serving files based on &lt;strong&gt;absolute physical file system paths&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Main characteristics of &lt;code&gt;PhysicalFile(...)&lt;/code&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The &lt;code&gt;physicalPath&lt;/code&gt; parameter must be an absolute path on the server’s filesystem (e.g. &lt;code&gt;C:&#92;data&#92;files&#92;report.pdf&lt;/code&gt; or &lt;code&gt;/var/app/data/report.pdf&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Because it uses a physical path, you are not limited to files inside the web root or content root — you can serve any file on disk (assuming permissions allow).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PhysicalFileResult&lt;/code&gt; supports HTTP range requests out-of-the-box, so partial content (for streaming media, large downloads, etc.) is supported.&lt;/li&gt;
+&lt;li&gt;There are overloads that allow you to specify headers like &lt;code&gt;lastModified&lt;/code&gt;, ETag, and whether range processing is enabled.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Because &lt;code&gt;PhysicalFile(...)&lt;/code&gt; works with a physical path, it avoids ambiguity about which file you&#39;re referencing — no virtual path resolution is involved. It simply maps to the file you give.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Side-by-Side Comparison&lt;/h2&gt;
+&lt;p&gt;Here’s a conceptual comparison (without table):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Path interpretation&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;File(...)&lt;/code&gt;: path is often treated as a &lt;em&gt;virtual path&lt;/em&gt; (relative to the app).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PhysicalFile(...)&lt;/code&gt;: path is a &lt;em&gt;physical full filesystem path&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Access scope&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;File(...)&lt;/code&gt;: limited to files within the web app’s files or content root (for virtual file resolution).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PhysicalFile(...)&lt;/code&gt;: can serve arbitrary files on disk (if permissions allow).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Range request support&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;File(...)&lt;/code&gt;: some overloads allow enabling range processing, but not all.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PhysicalFile(...)&lt;/code&gt;: built with support for HTTP range requests (partial content).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Error conditions&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;File(...)&lt;/code&gt;: may raise “file not found” if the virtual path does not map to a real file or is outside allowed scope.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PhysicalFile(...)&lt;/code&gt;: more direct — if the physical path doesn’t exist or is inaccessible, you’ll see errors or 404s.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Use cases&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;File(...)&lt;/code&gt;: good for static content bundled with the app, or when returning a stream or byte content already in memory.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PhysicalFile(...)&lt;/code&gt;: useful when you need to serve files outside of the app’s root (e.g. generated files in a temp directory, files stored in external folders, document repository outside web root).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Example Code&lt;/h2&gt;
+&lt;p&gt;Here are a few examples to illustrate usage:&lt;/p&gt;
+&lt;pre class=&quot;language-csharp&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-csharp&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;FileController&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token type-list&quot;&gt;&lt;span class=&quot;token class-name&quot;&gt;Controller&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;readonly&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;IWebHostEnvironment&lt;/span&gt; _env&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;FileController&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;IWebHostEnvironment&lt;/span&gt; env&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        _env &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; env&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;// Using File(...) with virtual path&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token return-type class-name&quot;&gt;IActionResult&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;DownloadViaFile&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token comment&quot;&gt;// virtual path inside wwwroot or content root&lt;/span&gt;
+        &lt;span class=&quot;token class-name&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;string&lt;/span&gt;&lt;/span&gt; virtualPath &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;/files/report.pdf&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;virtualPath&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;application/pdf&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;report.pdf&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;// Using File(...) with stream + range support&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token return-type class-name&quot;&gt;IActionResult&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;DownloadViaStream&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token class-name&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt;&lt;/span&gt; fileInfo &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; _env&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;WebRootFileProvider&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;GetFileInfo&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;files/largevideo.mp4&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token class-name&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt;&lt;/span&gt; stream &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; fileInfo&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;CreateReadStream&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;stream&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;video/mp4&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token named-parameter punctuation&quot;&gt;enableRangeProcessing&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;// Using PhysicalFile(...) with physical path&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token return-type class-name&quot;&gt;IActionResult&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;DownloadPhysical&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token class-name&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;string&lt;/span&gt;&lt;/span&gt; physicalPath &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Path&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Combine&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;_env&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ContentRootPath&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;App_Data&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;exported.xlsx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;PhysicalFile&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;physicalPath&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                            &lt;span class=&quot;token string&quot;&gt;&quot;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                            &lt;span class=&quot;token string&quot;&gt;&quot;exported.xlsx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In the examples:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;DownloadViaFile&lt;/code&gt; asks the framework to resolve &amp;quot;/files/report.pdf&amp;quot; as a virtual path.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DownloadViaStream&lt;/code&gt; explicitly opens a stream and enables range processing.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DownloadPhysical&lt;/code&gt; uses a full physical path; it doesn’t rely on virtual path resolution.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Best Practices &amp;amp; Caveats&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Be careful with security: when serving physical files, ensure the paths you allow are validated, so you don’t inadvertently expose sensitive files (e.g. config files, system files).&lt;/li&gt;
+&lt;li&gt;Prefer &lt;code&gt;PhysicalFile&lt;/code&gt; when dealing with external files: if your files are generated at runtime or stored outside the web root, &lt;code&gt;PhysicalFile(...)&lt;/code&gt; is safer and cleaner.&lt;/li&gt;
+&lt;li&gt;Use range processing when appropriate: for large files or media, enabling range support is important so clients can request partial content.&lt;/li&gt;
+&lt;li&gt;Watch for path traversal attacks: especially if file names or paths are influenced by user input; sanitize and validate carefully before passing paths to &lt;code&gt;PhysicalFile(...)&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Monitor performance and memory: avoid loading huge files entirely into memory before sending; use streams or physical file serving.&lt;/li&gt;
+&lt;li&gt;Check permissions: the process identity of your application must have access to the physical file path (read permissions).&lt;/li&gt;
+&lt;li&gt;Avoid mixing virtual- and physical- approaches inconsistently: pick one style for a scenario to reduce bugs and confusion.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;p&gt;In ASP.NET Core, &lt;code&gt;File(...)&lt;/code&gt; and &lt;code&gt;PhysicalFile(...)&lt;/code&gt; are both used for returning files in responses, but with different assumptions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;File(...)&lt;/code&gt; leans on virtual paths or in-memory data, ideal for content already part of your web app or bundled resources.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PhysicalFile(...)&lt;/code&gt; targets absolute physical filesystem paths, giving you flexibility to serve files outside your app’s web root.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When building file-serving endpoints, choose the method that aligns with where and how your files are stored, and always consider security, performance, and client needs (like range requests). Doing so ensures your application handles file downloads or streaming cleanly, reliably, and safely.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
     <title>How to Build a Free Personal Website with Vercel - A Complete Guide</title>
     <link href="https://example.com/blog/5/" />
     <updated>2025-10-02T00:00:00Z</updated>
