@@ -5,11 +5,112 @@
   <subtitle>This is a longer description about your blog.</subtitle>
   <link href="https://example.com/feed/feed.xml" rel="self" />
   <link href="https://example.com/" />
-  <updated>2025-09-29T00:00:00Z</updated>
+  <updated>2025-10-02T00:00:00Z</updated>
   <id>https://example.com/</id>
   <author>
     <name>Your Name</name>
   </author>
+  <entry>
+    <title>How to Build a Free Personal Website with Vercel - A Complete Guide</title>
+    <link href="https://example.com/blog/5/" />
+    <updated>2025-10-02T00:00:00Z</updated>
+    <id>https://example.com/blog/5/</id>
+    <content type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;If you want a sleek, fast, and free hosting solution for your personal website (portfolio, blog, resume page, side project landing page), Vercel is one of the top choices. Its free “Hobby” tier gives you zero-cost hosting for noncommercial personal sites. In this tutorial, you’ll see how to go from project idea → live website step by step, and I’ll share tips to help you avoid common traps.&lt;/p&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/blog/5/rw4NHd17eO-1000.avif 1000w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/blog/5/rw4NHd17eO-1000.webp 1000w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/blog/5/rw4NHd17eO-1000.jpeg&quot; alt=&quot;Vercel&quot; width=&quot;1000&quot; height=&quot;451&quot;&gt;&lt;/picture&gt;
+&lt;hr&gt;
+&lt;h2&gt;What is Vercel and Why Use It&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Vercel is a cloud platform optimized for deploying front-end projects (static sites, Jamstack, React/Next.js, etc.).&lt;/li&gt;
+&lt;li&gt;Its free “Hobby” plan supports personal usage, with generous bandwidth, build limits, and automatic deployments.&lt;/li&gt;
+&lt;li&gt;You get previews of branches, integration with Git (GitHub, GitLab, Bitbucket), and seamless updates when you push changes.&lt;/li&gt;
+&lt;li&gt;It frees you from managing servers or infrastructure, letting you focus on code and content.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Step 1: Prepare Your Website Project Locally&lt;/h2&gt;
+&lt;p&gt;Before deploying, you need a project. You have a few options:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Simple static site&lt;/strong&gt; — just HTML, CSS, JavaScript&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Static site generator&lt;/strong&gt; — e.g. Eleventy, Hugo, Gatsby&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Framework / React / Next.js / Vue / Svelte&lt;/strong&gt; — more dynamic but still deployable as static or SSR where supported&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For simplicity, let’s assume you’ll start with a static site (HTML + CSS + JS). That requires no build steps. If you use a framework, you will need to configure build commands (but Vercel auto-detects many frameworks).&lt;/p&gt;
+&lt;p&gt;Make sure your site works locally (e.g. open index.html, test links). Optionally initialize a Git repository:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; init
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;token builtin class-name&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; commit &lt;span class=&quot;token parameter variable&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Initial commit&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;hr&gt;
+&lt;h2&gt;Step 2: Push to a Git Repository (GitHub, GitLab, or Bitbucket)&lt;/h2&gt;
+&lt;p&gt;Vercel integrates best with Git-based workflows, so push your code to one of the supported Git providers:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Create a repository (public or private)&lt;/li&gt;
+&lt;li&gt;Add your project files, commit, and push&lt;/li&gt;
+&lt;li&gt;If your project has a build step (e.g. npm run build), make sure your build outputs go to a known folder like dist or public.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Step 3: Sign Up &amp;amp; Log In to Vercel&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Go to vercel.com and sign up or log in.&lt;/li&gt;
+&lt;li&gt;Connect your Git provider (you’ll be asked to grant permissions to repositories).&lt;/li&gt;
+&lt;li&gt;Once logged in, you&#39;re ready to create a new Vercel project.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Step 4: Import Your Project into Vercel&lt;/h2&gt;
+&lt;p&gt;1. From Vercel dashboard, click “New Project” or “Import Project”.&lt;/p&gt;
+&lt;p&gt;2. Select your Git provider and pick your repository.&lt;/p&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/blog/5/zrC100Eubd-1000.avif 1000w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/blog/5/zrC100Eubd-1000.webp 1000w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/blog/5/zrC100Eubd-1000.jpeg&quot; alt=&quot;Import Your Project into Vercel&quot; width=&quot;1000&quot; height=&quot;634&quot;&gt;&lt;/picture&gt;
+&lt;p&gt;3. Vercel will auto-detect the framework or static site; check the build settings (you can override if necessary).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For static sites, build command may be blank and output directory might be / or public or dist.&lt;/li&gt;
+&lt;li&gt;For frameworks like Next.js, check that the correct preset is selected.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;4. Choose settings like root directory, environment variables (if any).&lt;/p&gt;
+&lt;p&gt;5. Click Deploy.&lt;/p&gt;
+&lt;p&gt;Vercel will clone the repo, run the build (if any), and deploy the site. You will get a default .vercel.app or project-based domain (e.g. my-site.vercel.app) right away.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Step 5: Verify and Test Your Deployment&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Vercel shows logs of the deployment process (build, install, output) — watch for errors.&lt;/li&gt;
+&lt;li&gt;Visit the provided domain to see your live site.&lt;/li&gt;
+&lt;li&gt;Test all pages, links, and assets (images, CSS).&lt;/li&gt;
+&lt;li&gt;If the deployment fails, check error logs, missing dependencies, or misconfigured paths.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Step 6: (Optional) Configure a Custom Domain&lt;/h2&gt;
+&lt;p&gt;While the .vercel.app domain works fine, you may want your own domain (e.g. yourname.com). To add one:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;In your project’s Settings &amp;gt; Domains, click “Add Domain.”&lt;/li&gt;
+&lt;li&gt;Enter your custom domain name and verify domain ownership (via DNS records).&lt;/li&gt;
+&lt;li&gt;Configure DNS records at your domain registrar: usually adding A records or CNAME pointing to Vercel’s servers as instructed.&lt;/li&gt;
+&lt;li&gt;Once DNS propagates, Vercel will issue SSL (automatic).&lt;/li&gt;
+&lt;li&gt;You can set your custom domain as primary, so visitors see that instead of .vercel.app.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2&gt;Step 7: Continuous Deployment &amp;amp; Updates&lt;/h2&gt;
+&lt;p&gt;One of Vercel’s strengths is automatic updates:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Every time you git push updates to your repository (especially to your main branch), Vercel auto-triggers a new deployment.&lt;/li&gt;
+&lt;li&gt;You can preview feature branches: Vercel creates preview deployments for pull requests or branches, so you can test changes before merging.&lt;/li&gt;
+&lt;li&gt;You can disable auto-deploy or ignore certain paths if needed (in Project Settings under Git).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Practical Tips &amp;amp; Best Practices&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Use a simple folder structure so deploy paths don’t break.&lt;/li&gt;
+&lt;li&gt;Minify CSS/JS, optimize images, so your site loads fast on the free tier.&lt;/li&gt;
+&lt;li&gt;Cache control: leverage HTTP headers to cache static assets.&lt;/li&gt;
+&lt;li&gt;Limit build time: free tier has build time quotas—keep builds lean.&lt;/li&gt;
+&lt;li&gt;Clean environment variables: avoid exposing secrets; use Vercel’s built-in env var support.&lt;/li&gt;
+&lt;li&gt;Monitor usage: bandwidth and build hours are limited; check your usage on Vercel dashboard.&lt;/li&gt;
+&lt;li&gt;Set fallback or 404 pages so broken links don’t result in ugly errors.&lt;/li&gt;
+&lt;li&gt;Use incremental deployment: don’t redeploy everything if only small parts change.&lt;/li&gt;
+&lt;li&gt;Use analytics carefully: many tracking scripts slow load; consider lightweight alternatives.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Summary &amp;amp; Final Thoughts&lt;/h2&gt;
+&lt;p&gt;Building a free personal website with Vercel is remarkably straightforward. The combination of Git integration, automatic builds, previews, and domain support makes it a powerful platform for personal projects. Start with a simple static site, push it to Git, import into Vercel, and deploy. Over time, you can evolve into using frameworks or server-side rendering as your needs grow.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>How to Monetize Your Website with Google AdSense: A Complete Guide</title>
     <link href="https://example.com/blog/4/" />
