@@ -1,0 +1,263 @@
+<!doctype html>
+<html class="h-100" lang="en">
+	<head>
+		
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Upgrading from .NET 6 to .NET 8: A Step-by-Step Tutorial and Key Considerations</title>
+		<meta name="description" content="Learn how to upgrade from .NET 6 to .NET 8 with this step-by-step tutorial. Discover the benefits, upgrade process, and important considerations to ensure a smooth migration.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="PaulYu&#39;s Blog">
+		
+		
+		
+		
+		<link rel="stylesheet" href="/assets/bootstrap-5.3.8/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+		<link rel="stylesheet" href="/dist/y8dHfJ2TnB.css">
+		
+	</head>
+	<body class="h-100 d-flex flex-column">
+		<header>
+			<nav class="navbar border-bottom border-body navbar-expand-lg">
+				<div class="container">
+					<a class="navbar-brand" href="#">PaulYu&#39;s Blog</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link " href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link " href="/archive/">Archive</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link " href="/about/">About</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link " href="/feed/feed.xml">Feed</a>
+							</li>
+						<li class="nav-item">
+							<a class="nav-link" href="https://github.com/PaulYu1988" target="_blank"><i class="bi bi-github"></i></a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<i id="theme-icon" class="bi bi-brightness-high-fill"></i>
+							</a>
+							<ul class="dropdown-menu dropdown-menu-end">
+								<li><a class="dropdown-item theme-item" data-theme="light" href="#"><i class="bi bi-brightness-high-fill"></i> Light</a></li>
+								<li><a class="dropdown-item theme-item" data-theme="dark" href="#"><i class="bi bi-moon-stars-fill"></i> Dark</a></li>
+								<li><a class="dropdown-item theme-item" data-theme="auto" href="#"><i class="bi bi-circle-half"></i> Auto</a></li>
+							</ul>
+						</li>
+					</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<div class="container flex-grow-1">
+			<main id="main" class="mt-4">
+				
+
+
+
+<div class="row">
+	<div class="col-lg-9">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Post</li>
+			</ol>
+		</nav>
+		<h1 class="fs-4">Upgrading from .NET 6 to .NET 8: A Step-by-Step Tutorial and Key Considerations</h1>
+		<div class="mb-3 fs-6">
+			<time class="me-2 text-body-secondary fs-6" datetime="2025-10-02">02 October 2025</time>
+				<a class="me-2 fs-6" href="/tags/net/">.NET</a>
+				<a class="me-2 fs-6" href="/tags/net-6/">.NET 6</a>
+				<a class="me-2 fs-6" href="/tags/net-8/">.NET 8</a>
+		</div>
+		<div class="mb-3 post-content">
+		<p>.NET 8 is the latest Long-Term Support (LTS) release, bringing performance improvements, new APIs, and better developer experiences. If your project is currently running on .NET 6, upgrading to .NET 8 is highly recommended to ensure long-term support, security updates, and access to the newest features. This guide walks you through the upgrade process, highlights potential pitfalls, and shares best practices for a smooth transition.</p>
+<hr>
+<h2>Why Upgrade from .NET 6 to .NET 8?</h2>
+<p>Moving from .NET 6 to .NET 8 offers several benefits:</p>
+<ul>
+<li><strong>Long-Term Support</strong>: .NET 8 will be supported for three years, ensuring stability and security.</li>
+<li><strong>Performance Gains</strong>: Optimizations across JIT, garbage collection, and runtime performance.</li>
+<li><strong>New APIs and Features</strong>: Expanded support for cloud-native apps, JSON, and modern development scenarios.</li>
+<li><strong>Improved C# Features</strong>: Full support for the latest C# version, making your codebase cleaner and safer.</li>
+</ul>
+<hr>
+<h2>Step-by-Step Upgrade Guide</h2>
+<ol>
+<li>
+<p>Install .NET 8 SDK</p>
+<p>Download and install the .NET 8 SDK from the official .NET download page. Verify installation by running:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">dotnet <span class="token parameter variable">--version</span></code></pre>
+</li>
+<li>
+<p>Update Target Framework</p>
+<p>In your project file (.csproj), update the TargetFramework from:</p>
+<pre class="language-xml" tabindex="0"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TargetFramework</span><span class="token punctuation">></span></span>net6.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>TargetFramework</span><span class="token punctuation">></span></span></code></pre>
+<p>to:</p>
+<pre class="language-xml" tabindex="0"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TargetFramework</span><span class="token punctuation">></span></span>net8.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>TargetFramework</span><span class="token punctuation">></span></span></code></pre>
+</li>
+<li>
+<p>Update NuGet Packages</p>
+<p>Ensure all NuGet packages are compatible with .NET 8. Update them using:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">dotnet list package <span class="token parameter variable">--outdated</span>
+dotnet <span class="token function">add</span> package <span class="token operator">&lt;</span>PackageName<span class="token operator">></span> <span class="token parameter variable">--version</span> <span class="token operator">&lt;</span>LatestVersion<span class="token operator">></span></code></pre>
+</li>
+<li>
+<p>Check for Deprecated APIs</p>
+<p>.NET 8 removes or replaces some older APIs. Use compiler warnings and analyzers to identify and fix deprecated usages.</p>
+</li>
+<li>
+<p>Rebuild and Test</p>
+<p>Rebuild your solution:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">dotnet build</code></pre>
+<p>Then run unit and integration tests to ensure your application behaves as expected.</p>
+</li>
+<li>
+<p>Update Docker Images (if applicable)</p>
+<p>If your project uses Docker, update your base image in the Dockerfile:</p>
+<pre class="language-dockerfile" tabindex="0"><code class="language-dockerfile"><span class="token instruction"><span class="token keyword">FROM</span> mcr.microsoft.com/dotnet/aspnet:8.0</span>
+<span class="token instruction"><span class="token keyword">FROM</span> mcr.microsoft.com/dotnet/sdk:8.0</span></code></pre>
+</li>
+</ol>
+<hr>
+<h2>Key Considerations When Upgrading</h2>
+<p><strong>Compatibility</strong></p>
+<p>While most .NET 6 code will work without changes, you should carefully review:</p>
+<ul>
+<li>Obsolete methods replaced in .NET 8.</li>
+<li>Changes in default behaviors (e.g., JSON serialization improvements).</li>
+<li>Third-party libraries that may lag in .NET 8 support.</li>
+</ul>
+<p><strong>Performance Testing</strong></p>
+<p>After upgrading, run performance benchmarks to confirm your application benefits from .NET 8’s runtime improvements without unexpected regressions.</p>
+<p><strong>CI/CD Pipeline Updates</strong></p>
+<p>Update your build pipelines (GitHub Actions, Azure DevOps, or others) to use the .NET 8 SDK. This ensures your deployment environment matches your development setup.</p>
+<p><strong>Rollback Plan</strong></p>
+<p>Always keep a backup of your .NET 6 branch. In case critical issues arise, you can quickly roll back while troubleshooting.</p>
+<hr>
+<h2>Conclusion</h2>
+<p>Upgrading from .NET 6 to .NET 8 is a strategic move that ensures your application remains secure, performant, and future-proof. By following the outlined steps—updating SDK, modifying target frameworks, testing dependencies, and validating performance—you can achieve a smooth migration with minimal risk.</p>
+
+		</div>
+			<ul class="links-nextprev"><li class="links-nextprev-prev">Previous: <a href="/blog/6/">Differences Between File and PhysicalFile in .NET Core</a></li>
+			</ul>
+	</div>
+	<div class="col-lg-3">
+		<div class="sticky-lg-top">
+				
+					
+				
+					
+							
+							
+							
+								
+									
+								
+							
+							
+							
+							
+							
+							
+								
+							
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+							
+							
+							
+							
+							
+								
+							
+					
+				
+					
+				
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+				
+					
+							
+							
+							
+							
+							
+								
+							
+					
+				
+				<div class="mb-4">
+					<h3 class="fs-6 pb-2 mb-3 border-bottom"><i class="bi bi-archive"></i> Related Posts</h3>
+					<ul class="m-0 p-0">
+							<li class="mb-2 d-flex justify-content-between align-items-center">
+								<a href="/blog/6/" class="text-body">Differences Between File and PhysicalFile in .NET Core</a>
+							</li>
+						
+					</ul>
+				</div>
+		</div>
+	</div>
+</div>
+
+
+			</main>
+		</div>
+		<footer>
+			<div class="container">
+				<p class="text-center">
+					<em>Built with <a href="https://www.11ty.dev/">Eleventy v3.1.2</a></em>
+				</p>
+			</div>
+		</footer>
+		<!-- This page `/blog/7/` was built on 2025-10-02T03:06:02.364Z -->
+		<script type="module" src="/assets/bootstrap-5.3.8/js/bootstrap.bundle.min.js"></script>
+		<script type="module" src="/dist/qqqrY9SWGy.js"></script>
+	</body>
+</html>
