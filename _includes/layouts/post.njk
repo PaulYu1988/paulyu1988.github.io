@@ -29,45 +29,47 @@ layout: layouts/base.njk
 			{%- set nextPost = collections.posts | getNextCollectionItem %}
 			{%- if nextPost or previousPost %}
 			<ul class="links-nextprev">
-				{%- if previousPost %}<li class="links-nextprev-prev">← Previous<br> <a href="{{ previousPost.url }}">{{ previousPost.data.title }}</a></li>{% endif %}
-				{%- if nextPost %}<li class="links-nextprev-next">Next →<br><a href="{{ nextPost.url }}">{{ nextPost.data.title }}</a></li>{% endif %}
+				{%- if previousPost %}<li class="links-nextprev-prev">Previous: <a href="{{ previousPost.url }}">{{ previousPost.data.title }}</a></li>{% endif %}
+				{%- if nextPost %}<li class="links-nextprev-next">Next: <a href="{{ nextPost.url }}">{{ nextPost.data.title }}</a></li>{% endif %}
 			</ul>
 			{%- endif %}
 		{%- endif %}
 	</div>
 	<div class="col-lg-3">
-		{%- set relatedPosts = [] %}
-		{%- for tag in tags | filterTagList %}
-			{% for item in collections.postsByTag %}
-				{% if item.key == tag %}
-					{%- for p in item.posts %}
-						{% set exists = false %}
-						{% for existing in relatedPosts %}
-						{% if existing.url == p.url %}
-							{% set exists = true %}
-						{% endif %}
-						{% endfor %}
-						{% if not exists %}
-							{% if p.url != page.url %}
-								{% set relatedPosts = (relatedPosts.push(p), relatedPosts) %}
+		<div class="sticky-lg-top">
+			{%- set relatedPosts = [] %}
+			{%- for tag in tags | filterTagList %}
+				{% for item in collections.postsByTag %}
+					{% if item.key == tag %}
+						{%- for p in item.posts %}
+							{% set exists = false %}
+							{% for existing in relatedPosts %}
+							{% if existing.url == p.url %}
+								{% set exists = true %}
 							{% endif %}
-						{% endif %}
-					{%- endfor %}
-				{% endif %}
-			{% endfor %}
-		{%- endfor %}
-		{%- if relatedPosts %}
-			<div class="mb-4">
-				<h3 class="fs-6 pb-2 mb-3 border-bottom"><i class="bi bi-archive"></i> Related Posts</h3>
-				<ul class="m-0 p-0">
-					{%- for post in relatedPosts %}
-						<li class="mb-2 d-flex justify-content-between align-items-center">
-							<a href="{{ post.url }}" class="text-body">{% if post.data.title %}{{ post.data.title }}{% else %}<code>{{ post.url }}</code>{% endif %}</a>
-						</li>
-					{% endfor %}
-				</ul>
-			</div>
-		{%- endif %}
+							{% endfor %}
+							{% if not exists %}
+								{% if p.url != page.url %}
+									{% set relatedPosts = (relatedPosts.push(p), relatedPosts) %}
+								{% endif %}
+							{% endif %}
+						{%- endfor %}
+					{% endif %}
+				{% endfor %}
+			{%- endfor %}
+			{%- if relatedPosts %}
+				<div class="mb-4">
+					<h3 class="fs-6 pb-2 mb-3 border-bottom"><i class="bi bi-archive"></i> Related Posts</h3>
+					<ul class="m-0 p-0">
+						{%- for post in relatedPosts %}
+							<li class="mb-2 d-flex justify-content-between align-items-center">
+								<a href="{{ post.url }}" class="text-body">{% if post.data.title %}{{ post.data.title }}{% else %}<code>{{ post.url }}</code>{% endif %}</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{%- endif %}
+		</div>
 	</div>
 </div>
 
